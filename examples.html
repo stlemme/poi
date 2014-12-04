@@ -200,5 +200,53 @@
 
 	</section>
 
+	<section>
+		<h2>Ensure data component existence on resulting POIs</h2>
+
+		<section>
+			<h2>Query Template for one data component</h2>
+			<code>POST /api/queries</code>
+			<pre class="example highlight" data-include='examples/query-has-component.json' data-include-format='text'></pre>
+			<p>
+			  expects an url parameter "has_component" that contains the name of the required data component
+			</p>
+			<p>
+			  returns the uri of this query as <a>Location</a> in the response header
+			</p>
+		</section>
+		
+		<section>
+			<h2>Instantiate query template</h2>
+			<code>GET /api/queries/8d079fd4-fa68-4e77-bf90-4de052590bf6/results?has_component=fw_xml3d</code>
+			<p>
+			  returns a <a>Query Result</a> resource containing all POIs with
+			  an attached 3D model
+			</p>
+		</section>
+
+		<section>
+			<h2>Create Query Template for several data components</h2>
+			<code>POST /api/queries</code>
+			<pre class="example highlight" data-include='examples/query-has-multiple-components.json' data-include-format='text'></pre>
+			<p>
+			  expects an url parameter "has_component" that contains the csv list
+			  with names of the required data component. Parameters of type array
+			  are in fact arrays of strings.
+			</p>
+			<p>
+			  returns the uri of this query as <a>Location</a> in the response header
+			</p>
+		</section>
+		
+		<section>
+			<h2>Instantiate query template</h2>
+			<code>GET /api/queries/7e6e2221-3ea7-4224-a0eb-80f0d5a6cb7a/results?has_component=fw_xml3d,fw_media,fw_contact</code>
+			<p>
+			  returns a <a>Query Result</a> resource containing all POIs with
+			  an attached 3D model, some media and contact details
+			</p>
+		</section>
+	</section>
+
 	</body>
 </html>
