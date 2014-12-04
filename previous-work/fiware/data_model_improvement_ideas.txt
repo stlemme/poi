@@ -1,0 +1,179 @@
+Improvement suggestions to POI data definition
+==============================================
+
+This is to better accommodate the needs of FI-CONTENT projects.
+
+1. Relative POIs
+----------------
+
+To the POI, whose location is based on another POI, a relative location
+reference is used. Instead of "WGS84" key the "relative" key is used.
+
+  "relative": {
+    "r": <meters>, // right
+    "fw": <meters>, // forward
+    "up": <meters>, // up
+    "base": <URL of the POI defining the origin and orientation of the coordinates>
+  }
+
+This introduces a new property to the location schema:
+  
+  {
+    "title": "Location Data",
+    "description": "",
+    "type": "object",
+    "properties": {
+      "wgs84": {<as before>},
+      "relative": {
+        "title": "Relative to another POI",
+        "description": "",
+        "type": "object",
+        "properties": {
+          "r": {
+            "title": "right",
+            "description": "meters right from the base",
+            "type": "number"
+          },
+          "fw": {
+            "title": "forward",
+            "description": "meters forward from the base",
+            "type": "number"
+          },
+          "up": {
+            "title": "up",
+            "description": "meters up from the base",
+            "type": "number"
+          },
+          "base": {
+            "title": "base POI",
+            "type": "string",
+            "format": "uri"
+        }
+      }
+    },
+    "additionalProperties": {<as before>}
+  }
+
+
+2. Orientation
+--------------
+
+The orientation of a POI is important if the POI used as the base for relative 
+coordinate system. Also, if the POI has some oriented data e.g. 3D models, the 
+orientation is significant. 
+For a POI with WGS84 location the default orientation is that forward is north 
+and up is up. For a POI with relative location the default orientation is the 
+orientation of the parent coordinate system.
+If orientation of a POI is not the default orientation of the coordinate system
+an orientation component is used. The coordinate system based on the POI has
+the same orientation as the POI itself.
+
+  "fw_orientation": {
+    "quaternion": [<4 components of a quaternion (reference?)>]
+    // OR, for simplicity, if rotation is constrained around vertical axis
+    "heading": <number> // degrees  clockwise - actually the compass reading
+  }
+
+And the schema:
+
+  "fw_orientation": {
+    "description": "Orientation of the POI and related coordinate system in",
+    "type": "object",
+    "properties": {
+      "quaternion": {
+        "description": "4 elements of rotation quaternion as defined in <ref TBD>",
+        "type": "array",
+        "items": {
+          "type": "number"
+        }
+      },
+      "heading": {
+        "description": "Alternative definition. Clockwise rotation around vertical axis in degrees 0.0 .. 360.0",
+        "type": "number",
+        "items": {
+          "type": "number"
+        }
+      }
+    },
+    <and the standard source, update, etc. stuff>
+  }
+
+  
+3. Category ontologies
+----------------------
+
+Category keys are prefixed with ontology keys: <ontology>:<category>
+The ontologies are administered by organisations, which must have organisation
+labels. An ontology key is <organisation_id>_<ontology_label>
+Examples:
+
+  "fw_osm:cafe", "x1_process:pump", "x2_mil:airbase"
+  ("fw_osm" refers to OpenStreetMap kategories)
+
+(Wherefrom those organisation labels are obtained applies also to component 
+naming. ... To be defined.)
+
+4. A POI belonging to several categories
+----------------------------------------
+
+A new key "categories" to the fw_core is introduced. It is a string-list with
+all the categories the POI belongs to.
+Example: ["fw_osm:cafe", "fw_osm:bar", "fw_osm:restaurant"]
+
+Schema for a new property to fw_core:
+
+  "categories": {
+    "description": "Set of categories this POI belongs to",
+    "type": "array",
+    "items": {
+      "type": "string"
+    }
+  }
+  
+  
+5. POI Relationships
+--------------------
+
+POI relationships can be used to express an open ended set of relations:
+parent, neighbour, accessible_from, entry_point_of, whatever, ...
+POI fw_relationships component is already defined. However, the relationship
+concept might need some rethinking.
+The big question about a relationship between POIs is: "who, if any, owns it".
+
+
+6. User etc. profiles
+---------------------
+
+Rationale behind profiles referred e.g. in update_stamp and source is to avoid
+repeated incoherent explanations "who did it". In stead one source or person
+is defined once and referred by UUID. However, not much thought is put to the
+details of the profile record.
+
+A possible example for user profile:
+
+  "<UUID>": {
+    "name": "Ari Okkonen",
+    "organisation": "CIE, University of Oulu",
+    "mailto": "ari.okkonen@cie.fi",
+    "postal": ["P.O. Box 1001", "FI-90014 University of Oulu", "FINLAND"],
+    "visit": "Erkki Koiso-Kanttilan katu 9, Oulu, Finland",
+    "phone": "+358401234567",
+    "identification": {
+      "facebook": {
+        "id": "12345678901234567"
+      }
+    },
+    "profile_host": "http://www.example.org/poi_user_profiles"
+  }
+
+A possible example for source profile:
+
+  "<UUID>": {
+    "ref_txt": "<practical and established textual reference to source>",
+    "url": "<URL of the source>"
+  }
+
+
+
+
+

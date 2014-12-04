@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Places of Interest (POI) in the Domain of the Future Internet</title>
+    <meta charset='utf-8'>
+    <script src='http://www.w3.org/Tools/respec/respec-w3c-common' async class='remove'></script>
+    <script src='respec-config.js' class='remove'></script>
+  </head>
+  <body>
+    <section id='abstract'>
+      <p>
+        This document provides example use cases.
+      </p>
+    </section>
+
+    <section id='sotd'>
+      <p>
+        This is probably the froodiest document that you will read all year. It has
+        been authored using new means of achieving consensus that have been made 
+        possible through nanoethanol implants.
+      </p>
+    </section>
+    
+    <section>
+		<h2>POIs with specific category (restaurant)</h2>
+
+		<section>
+			<h2>Single-use Query</h2>
+			<code>GET /api/queries/results?fw_core.category=restaurant</code>
+			<p>
+			  returns a <a>Query Result</a> resource containing only POIs with
+			  "restaurant" as "category" value
+			</p>
+		</section>
+				
+		<section>
+			<h2>Create Query Template</h2>
+			<code>POST /api/queries</code>
+			<pre class="example highlight" data-include='examples/query-specific-category.json' data-include-format='text'></pre>
+			<p>
+			  returns the uri of this query as <a>Location</a> in the response header
+			</p>
+		</section>
+		
+		<section>
+			<h2>Instantiate query template</h2>
+			<code>GET /api/queries/aa714817-b7cb-4099-ba68-955dcfc99733/results</code>
+			<p>
+			  returns a <a>Query Result</a> resource containing only POIs with
+			  "restaurant" as "category" value
+			</p>
+		</section>
+
+		<section>
+			<h2>Instantiate query template for spatial search</h2>
+			<code>GET /api/queries/aa714817-b7cb-4099-ba68-955dcfc99733/results?spatial=radial(49.239553,6.997040,100)</code>
+			<p>
+			  returns a <a>Query Result</a> resource containing only POIs
+			  with "restaurant" as "category" value 100 meters around city
+			  center of Saarbrücken (lat: 49.239553 / lon: 6.997040).
+			</p>
+		</section>
+		
+		<section>
+			<h2>Instantiate query template with additional filters</h2>
+			<code>GET /api/queries/aa714817-b7cb-4099-ba68-955dcfc99733/results?fw_core.name=Favourite%20Gourmet</code>
+			<p>
+			  returns a <a>Query Result</a> resource containing only POIs
+			  with "restaurant" as "category" value and the name "Favourite Gourmet".
+			</p>
+		</section>
+
+    </section>
+	
+	
+	<section>
+		<h2>POIs with specific name (Hotel Paris)</h2>
+
+		<section>
+			<h2>Single-use Query for exact matches</h2>
+			<code>GET /api/queries/results?fw_core.name=Hotel%20Paris</code>
+		</section>
+				
+		<section>
+			<h2>Single-use Query for fuzzy matches</h2>
+			<code>GET /api/queries/results?fw_core.name=contains(Hotel%20Paris)</code>
+			<p>
+			  <a>Special function</a> <code>contains()</code> builds a simple
+			  regular expression from the parameter, which allows trailing
+			  characters in the POI property (e.g. "Hotel Paris 2000",
+			  "Hotel Paris Deluxe", "My Hotel Paris")
+			</p>
+			<code>GET /api/queries/results?fw_core.name=matches([Hh]otel%20[Pp]aris)</code>
+			<p>
+			  <a>Special function</a> <code>matches()</code> uses the parameter as
+			  regular expression to validate the POI property fw_core.name
+			</p>
+		</section>
+
+		<section>
+			<h2>Create Query Template for exact name match</h2>
+			<code>POST /api/queries</code>
+			<pre class="example highlight" data-include='examples/query-specific-name.json' data-include-format='text'></pre>
+			<p>
+			  returns the uri of this query as <a>Location</a> in the response header
+			</p>
+		</section>
+		
+		<section>
+			<h2>Instantiate query template</h2>
+			<code>GET /api/queries/08ee9195-69a8-4585-bc65-696be8731fbf/results</code>
+			<p>
+			  returns a <a>Query Result</a> resource containing all POIs with
+			  the exact name "Hotel Paris"
+			</p>
+		</section>
+
+		<section>
+			<h2>Create Query Template for fuzzy name match</h2>
+			<code>POST /api/queries</code>
+			<pre class="example highlight" data-include='examples/query-specific-fuzzy-name.json' data-include-format='text'></pre>
+			<p>
+			  uses the pattern property of string-type properties to validate
+			  against some regular expression. It has the same meaning as the
+			  <a>Special Function</a> <code>matches()</code>
+			</p>
+			<p>
+			  returns the uri of this query as <a>Location</a> in the response header
+			</p>
+			<p class="note">
+			  An extension of the json schema might make sense (i.e. allow
+			  special functions as part of the schema). Thus, we can ensure coherent
+			  results when switching from single-use queries to templates.
+			</p>
+			<pre class="example highlight" data-include='examples/query-specific-fuzzy-name-extension.json' data-include-format='text'></pre>
+		</section>
+
+	</section>
+
+	<section>
+		<h2>POIs with name specified via url parameter</h2>
+
+		<section>
+			<h2>Create Query Template</h2>
+			<code>POST /api/queries</code>
+			<pre class="example highlight" data-include='examples/query-specific-name-parameter.json' data-include-format='text'></pre>
+			<p>
+			  expects an url parameter "name" that contains the actual value for the placeholder
+			</p>
+			<p>
+			  returns the uri of this query as <a>Location</a> in the response header
+			</p>
+		</section>
+		
+		<section>
+			<h2>Instantiate query template</h2>
+			<code>GET /api/queries/0a01f624-e2f8-40f8-bdd6-a66c1d3b261b/results?name=Hotel%20Paris</code>
+			<p>
+			  returns a <a>Query Result</a> resource containing all POIs with
+			  the name "Hotel Paris"
+			</p>
+		</section>
+
+		<section>
+			<h2>Instantiate query template for spatial search</h2>
+			<code>GET /api/queries/0a01f624-e2f8-40f8-bdd6-a66c1d3b261b/results?name=Hotel%20Paris&spatial=radial(49.239553,6.997040,2000)</code>
+			<p>
+			  returns a <a>Query Result</a> resource containing only POIs with
+			  the name "Hotel Paris" nearby the city center of Saarbrücken
+			</p>
+		</section>
+	</section>
+
+
+	<section>
+		<h2>Full text search on POIs</h2>
+
+		<section>
+			<h2>Create Query Template</h2>
+			<code>POST /api/queries</code>
+			<pre class="example highlight" data-include='examples/query-full-text-search.json' data-include-format='text'></pre>
+			<p>
+			  expects an url parameter "q" of type string that the query is
+			  looking for in several POI properties
+			</p>
+			<p>
+			  returns the uri of this query as <a>Location</a> in the response header
+			</p>
+		</section>
+		
+		<section>
+			<h2>Instantiate query template</h2>
+			<code>GET /api/queries/4f9cfea8-0c78-4e07-836f-0401a3b1169a/results?q=bar</code>
+			<p>
+			  returns a <a>Query Result</a> resource containing all POIs with
+			  the term "bar" in any of the properties (i.e. name, short name,
+			  label, description, visiting address, postal address)
+			</p>
+		</section>
+
+	</section>
+
+	</body>
+</html>

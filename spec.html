@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Places of Interest (POI) in the Domain of the Future Internet</title>
+    <meta charset='utf-8'>
+    <script src='http://www.w3.org/Tools/respec/respec-w3c-common' async class='remove'></script>
+    <script src='respec-config.js' class='remove'></script>
+  </head>
+  <body>
+    <section id='abstract'>
+      <p>
+        This document describes the proper process involved in the capturing and caring
+        for the more common farm animals.
+      </p>
+    </section>
+
+    <section id='sotd'>
+      <p>
+        This is probably the froodiest document that you will read all year. It has
+        been authored using new means of achieving consensus that have been made 
+        possible through nanoethanol implants.
+      </p>
+    </section>
+    
+    <section>
+      <h2>Introduction</h2>
+      <p>
+        Once upon a time, there was a working group that needed to write a 
+        specification using nothing but [[!HTML5]].
+      </p>
+    </section>
+
+    <section>
+      <h2>REST Resources</h2>
+	  <p>
+      <ul>
+        <li>two types of resources: POI entities and Query results</li>
+		<li>TODO: discuss 3rd type of resource for data-source provider/license</li>
+      </ul>
+	  </p>
+	  
+	  <section>
+		<h2>POI Resource</h2>
+		
+		<section>
+		<h3>Structure</h3>
+		<pre class="example highlight">
+{
+	“fw_core”: uri / object,
+	“fw_media”: uri / object,
+	[...]
+}
+		</pre>
+		</section>
+		
+		<section>
+		<h3>Unordered collection of POI properties</h3>
+		
+		<p>
+		To be completed as basis for a revision of the data components: <a href="http://goo.gl/o1mTOa">http://goo.gl/o1mTOa</a>
+		</p>
+		</section>
+		
+		<section>
+		<h3>Available data components</h3>
+		<p class="note">
+		These are the data components given as JSON schema by the POI Data Provider GE and proposed by FIWARE.
+		</p>
+		<p>
+		<ul>
+			<li>fw_core - http://goo.gl/9khnJq</li>
+			<li>fw_media - http://goo.gl/TvIVE1</li>
+			<li>fw_xml3d - http://goo.gl/rtzaGC</li>
+			<li>fw_relationships - http://goo.gl/mPaV0B</li>
+			<li>fw_marker - http://goo.gl/NOK07i</li>
+			<li>fw_time - http://goo.gl/t7uTVt</li>
+			<li>fw_contact - http://goo.gl/myIojs</li>
+		</ul>
+		</p>
+		</section>
+		
+		<section>
+		<h3>Proposed data components</h3>
+		<p>
+		<ul>
+			<li>fic2_fusion_tracking - http://goo.gl/ewhHes</li>
+			<li>fic2_dynamic_distance - http://goo.gl/idNoVY</li>
+		</ul>
+		</section>
+	
+	  </section> <!-- POI Resource -->
+	  
+	  <section>
+		<h2>Query Result Resource</h2>
+
+		<section>
+		<h3>Structure</h3>
+		<pre class="example highlight">
+{
+	“pois”: {
+		“30ddf703-59f5-4448-8918-0f625a7e1122”: {
+			“fw_core”: uri / object,
+			“fw_media”: uri / object
+		},
+		“4df3efde-8d5c-42bd-95ae-7b0991899968”: {
+			[...]
+		},
+		“3345e9d6-0526-4f43-901b-06f0def6a965”: uri / object,
+		“0503a61c-ca31-43e2-b09e-1581446b82e5”: uri / object,
+		“bdbf907f-88bd-4a4f-a805-bb7f9f3fa744”: uri / object,
+		[...]
+	},
+
+	“query”: {
+		[...] // other query related information
+	}
+}
+		</pre>
+		</section>
+	  </section> <!-- Query Result Resource -->
+	  
+    </section>
+	
+  </body>
+</html>

@@ -1,0 +1,3 @@
+[submodule "previous-work/ogc"]
+	path = previous-work/ogc
+	url = https://github.com/opengeospatial/poi.git

@@ -1,0 +1,1 @@
+The identifier component of a POI entity is mandatory and contains a universally unique identifier (UUID). We apply the RFC 4122 (Version 4) accordingly. This avoids conflicts when using multiple POI data providers simultaneously.

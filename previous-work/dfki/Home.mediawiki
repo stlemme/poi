@@ -1,0 +1,4 @@
+Welcome to the poi wiki!
+
+
+The main structure of a [[POI]]
